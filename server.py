@@ -1,14 +1,11 @@
-from fastapi import FastAPI
+from mcp.server.fastmcp import FastMCP
 
-app = FastAPI()
+mcp = FastMCP("Clue")
 
-@app.get("/")
-def root():
-    return {
-        "name": "Clue",
-        "status": "online"
-    }
+@mcp.tool()
+def clue_test(query: str) -> str:
+    """Test the Clue investigation tool."""
+    return f"Clue received: {query}"
 
-@app.get("/health")
-def health():
-    return {"status": "ok"}
+if __name__ == "__main__":
+    mcp.run(transport="streamable-http")
